@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class DisplayWithE {
+public class DisplaySelectedRows {
     static Connection con = null;
     private static Statement stmt;
     public static String DB_URL = "jdbc:mysql://localhost:3306/user";
@@ -29,7 +29,33 @@ public class DisplayWithE {
     }
 
     @Test
-    public void test() {
+    public void DisplayAllRows() {
+        try {
+            String query = "select * from test";
+            ResultSet res = stmt.executeQuery(query);
+            while (res.next()) {
+                System.out.printf("%-4s%-14s%s%n", res.getString(1), res.getString(2), res.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DisplayRowsWithEvenID() {
+        try {
+            String query = "select * from test where (ID % 2) = 0";
+            ResultSet res = stmt.executeQuery(query);
+            while (res.next()) {
+                System.out.printf("%-4s%-14s%s%n", res.getString(1), res.getString(2), res.getString(3));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void DisplayRowsWithEInTitle() {
         try {
             String query = "select * from test where title like '%e%'";
             ResultSet res = stmt.executeQuery(query);
